@@ -1,0 +1,506 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="apartment_world">
+
+    <!-- ================= WORLD SETTINGS ================= -->
+    <physics name="default_physics" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- ================= FLOOR ================= -->
+    <model name="floor">
+      <static>true</static>
+      <link name="link">
+        <pose>0 0 -0.025 0 0 0</pose>
+
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>16 12 0.05</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>16 12 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.91 0.84 1</ambient>
+            <diffuse>0.92 0.91 0.84 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ================= OUTER WALLS ================= -->
+    <model name="outer_walls">
+      <static>true</static>
+      <link name="link">
+
+        <!-- Top wall -->
+        <collision name="top_collision">
+          <pose>0 6 1 0 0 0</pose>
+          <geometry><box><size>16 0.25 2</size></box></geometry>
+        </collision>
+        <visual name="top_visual">
+          <pose>0 6 1 0 0 0</pose>
+          <geometry><box><size>16 0.25 2</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material>
+        </visual>
+
+        <!-- Bottom wall -->
+        <collision name="bottom_collision">
+          <pose>0 -6 1 0 0 0</pose>
+          <geometry><box><size>16 0.25 2</size></box></geometry>
+        </collision>
+        <visual name="bottom_visual">
+          <pose>0 -6 1 0 0 0</pose>
+          <geometry><box><size>16 0.25 2</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material>
+        </visual>
+
+        <!-- Left wall -->
+        <collision name="left_collision">
+          <pose>-8 0 1 0 0 0</pose>
+          <geometry><box><size>0.25 12 2</size></box></geometry>
+        </collision>
+        <visual name="left_visual">
+          <pose>-8 0 1 0 0 0</pose>
+          <geometry><box><size>0.25 12 2</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material>
+        </visual>
+
+        <!-- Right wall -->
+        <collision name="right_collision">
+          <pose>8 0 1 0 0 0</pose>
+          <geometry><box><size>0.25 12 2</size></box></geometry>
+        </collision>
+        <visual name="right_visual">
+          <pose>8 0 1 0 0 0</pose>
+          <geometry><box><size>0.25 12 2</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+    <!-- =========================================================
+         INNER WALLS
+         Layout:
+         - Big central hallway from x=-2.4 to x=2.4
+         - Four large rooms around it
+         - Door gaps are intentionally wide for robot navigation
+    ========================================================== -->
+    <model name="inner_walls_with_doors">
+      <static>true</static>
+      <link name="link">
+
+        <!-- ========= LEFT VERTICAL WALL x = -2.4 WITH TWO DOORS ========= -->
+        <!-- Top segment -->
+        <collision name="left_v_top_collision">
+          <pose>-2.4 4.95 1 0 0 0</pose>
+          <geometry><box><size>0.22 2.1 2</size></box></geometry>
+        </collision>
+        <visual name="left_v_top_visual">
+          <pose>-2.4 4.95 1 0 0 0</pose>
+          <geometry><box><size>0.22 2.1 2</size></box></geometry>
+          <material><ambient>0.48 0.48 0.48 1</ambient><diffuse>0.48 0.48 0.48 1</diffuse></material>
+        </visual>
+
+        <!-- Middle segment between top and bottom doors -->
+        <collision name="left_v_mid_collision">
+          <pose>-2.4 0 1 0 0 0</pose>
+          <geometry><box><size>0.22 3.0 2</size></box></geometry>
+        </collision>
+        <visual name="left_v_mid_visual">
+          <pose>-2.4 0 1 0 0 0</pose>
+          <geometry><box><size>0.22 3.0 2</size></box></geometry>
+          <material><ambient>0.48 0.48 0.48 1</ambient><diffuse>0.48 0.48 0.48 1</diffuse></material>
+        </visual>
+
+        <!-- Bottom segment -->
+        <collision name="left_v_bottom_collision">
+          <pose>-2.4 -4.95 1 0 0 0</pose>
+          <geometry><box><size>0.22 2.1 2</size></box></geometry>
+        </collision>
+        <visual name="left_v_bottom_visual">
+          <pose>-2.4 -4.95 1 0 0 0</pose>
+          <geometry><box><size>0.22 2.1 2</size></box></geometry>
+          <material><ambient>0.48 0.48 0.48 1</ambient><diffuse>0.48 0.48 0.48 1</diffuse></material>
+        </visual>
+
+        <!-- ========= RIGHT VERTICAL WALL x = 2.4 WITH TWO DOORS ========= -->
+        <collision name="right_v_top_collision">
+          <pose>2.4 4.95 1 0 0 0</pose>
+          <geometry><box><size>0.22 2.1 2</size></box></geometry>
+        </collision>
+        <visual name="right_v_top_visual">
+          <pose>2.4 4.95 1 0 0 0</pose>
+          <geometry><box><size>0.22 2.1 2</size></box></geometry>
+          <material><ambient>0.48 0.48 0.48 1</ambient><diffuse>0.48 0.48 0.48 1</diffuse></material>
+        </visual>
+
+        <collision name="right_v_mid_collision">
+          <pose>2.4 0 1 0 0 0</pose>
+          <geometry><box><size>0.22 3.0 2</size></box></geometry>
+        </collision>
+        <visual name="right_v_mid_visual">
+          <pose>2.4 0 1 0 0 0</pose>
+          <geometry><box><size>0.22 3.0 2</size></box></geometry>
+          <material><ambient>0.48 0.48 0.48 1</ambient><diffuse>0.48 0.48 0.48 1</diffuse></material>
+        </visual>
+
+        <collision name="right_v_bottom_collision">
+          <pose>2.4 -4.95 1 0 0 0</pose>
+          <geometry><box><size>0.22 2.1 2</size></box></geometry>
+        </collision>
+        <visual name="right_v_bottom_visual">
+          <pose>2.4 -4.95 1 0 0 0</pose>
+          <geometry><box><size>0.22 2.1 2</size></box></geometry>
+          <material><ambient>0.48 0.48 0.48 1</ambient><diffuse>0.48 0.48 0.48 1</diffuse></material>
+        </visual>
+
+        <!-- ========= LEFT SIDE HORIZONTAL DIVIDER y = 0 ========= -->
+        <!-- This separates top-left and bottom-left rooms, but does not block central hallway -->
+        <collision name="left_h_collision">
+          <pose>-5.2 0 1 0 0 0</pose>
+          <geometry><box><size>5.4 0.22 2</size></box></geometry>
+        </collision>
+        <visual name="left_h_visual">
+          <pose>-5.2 0 1 0 0 0</pose>
+          <geometry><box><size>5.4 0.22 2</size></box></geometry>
+          <material><ambient>0.48 0.48 0.48 1</ambient><diffuse>0.48 0.48 0.48 1</diffuse></material>
+        </visual>
+
+        <!-- ========= RIGHT SIDE HORIZONTAL DIVIDER y = 0 ========= -->
+        <collision name="right_h_collision">
+          <pose>5.2 0 1 0 0 0</pose>
+          <geometry><box><size>5.4 0.22 2</size></box></geometry>
+        </collision>
+        <visual name="right_h_visual">
+          <pose>5.2 0 1 0 0 0</pose>
+          <geometry><box><size>5.4 0.22 2</size></box></geometry>
+          <material><ambient>0.48 0.48 0.48 1</ambient><diffuse>0.48 0.48 0.48 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+    <!-- =========================================================
+         FURNITURE
+         Furniture is moved away from doors and center hallway.
+    ========================================================== -->
+
+    <!-- ================= TOP LEFT: BEDROOM ================= -->
+    <model name="bed_realistic">
+      <static>true</static>
+      <pose>-5.6 3.55 0 0 0 0</pose>
+      <link name="link">
+
+        <collision name="frame_collision">
+          <pose>0 0 0.18 0 0 0</pose>
+          <geometry><box><size>2.1 1.25 0.28</size></box></geometry>
+        </collision>
+        <visual name="frame_visual">
+          <pose>0 0 0.18 0 0 0</pose>
+          <geometry><box><size>2.1 1.25 0.28</size></box></geometry>
+          <material><ambient>0.35 0.18 0.08 1</ambient><diffuse>0.35 0.18 0.08 1</diffuse></material>
+        </visual>
+
+        <collision name="mattress_collision">
+          <pose>0 0 0.39 0 0 0</pose>
+          <geometry><box><size>1.95 1.1 0.18</size></box></geometry>
+        </collision>
+        <visual name="mattress_visual">
+          <pose>0 0 0.39 0 0 0</pose>
+          <geometry><box><size>1.95 1.1 0.18</size></box></geometry>
+          <material><ambient>0.90 0.88 0.78 1</ambient><diffuse>0.90 0.88 0.78 1</diffuse></material>
+        </visual>
+
+        <visual name="pillow_visual">
+          <pose>-0.55 0.35 0.54 0 0 0</pose>
+          <geometry><box><size>0.55 0.32 0.10</size></box></geometry>
+          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+    <model name="wardrobe_realistic">
+      <static>true</static>
+      <pose>-7.15 1.25 0 0 0 0</pose>
+      <link name="link">
+        <collision name="body_collision">
+          <pose>0 0 0.85 0 0 0</pose>
+          <geometry><box><size>0.55 1.35 1.7</size></box></geometry>
+        </collision>
+        <visual name="body_visual">
+          <pose>0 0 0.85 0 0 0</pose>
+          <geometry><box><size>0.55 1.35 1.7</size></box></geometry>
+          <material><ambient>0.25 0.12 0.05 1</ambient><diffuse>0.25 0.12 0.05 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ================= BOTTOM LEFT: LIVING ROOM ================= -->
+    <model name="sofa_realistic">
+      <static>true</static>
+      <pose>-5.8 -4.65 0 0 0 0</pose>
+      <link name="link">
+
+        <collision name="seat_collision">
+          <pose>0 0 0.28 0 0 0</pose>
+          <geometry><box><size>2.0 0.75 0.22</size></box></geometry>
+        </collision>
+        <visual name="seat_visual">
+          <pose>0 0 0.28 0 0 0</pose>
+          <geometry><box><size>2.0 0.75 0.22</size></box></geometry>
+          <material><ambient>0.05 0.15 0.45 1</ambient><diffuse>0.05 0.15 0.45 1</diffuse></material>
+        </visual>
+
+        <collision name="back_collision">
+          <pose>0 -0.42 0.62 0 0 0</pose>
+          <geometry><box><size>2.1 0.18 0.72</size></box></geometry>
+        </collision>
+        <visual name="back_visual">
+          <pose>0 -0.42 0.62 0 0 0</pose>
+          <geometry><box><size>2.1 0.18 0.72</size></box></geometry>
+          <material><ambient>0.04 0.12 0.36 1</ambient><diffuse>0.04 0.12 0.36 1</diffuse></material>
+        </visual>
+
+        <collision name="left_arm_collision">
+          <pose>-1.1 0 0.45 0 0 0</pose>
+          <geometry><box><size>0.18 0.85 0.45</size></box></geometry>
+        </collision>
+        <visual name="left_arm_visual">
+          <pose>-1.1 0 0.45 0 0 0</pose>
+          <geometry><box><size>0.18 0.85 0.45</size></box></geometry>
+          <material><ambient>0.04 0.12 0.36 1</ambient><diffuse>0.04 0.12 0.36 1</diffuse></material>
+        </visual>
+
+        <collision name="right_arm_collision">
+          <pose>1.1 0 0.45 0 0 0</pose>
+          <geometry><box><size>0.18 0.85 0.45</size></box></geometry>
+        </collision>
+        <visual name="right_arm_visual">
+          <pose>1.1 0 0.45 0 0 0</pose>
+          <geometry><box><size>0.18 0.85 0.45</size></box></geometry>
+          <material><ambient>0.04 0.12 0.36 1</ambient><diffuse>0.04 0.12 0.36 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+    <model name="coffee_table_realistic">
+      <static>true</static>
+      <pose>-5.4 -3.35 0 0 0 0</pose>
+      <link name="link">
+
+        <collision name="top_collision">
+          <pose>0 0 0.42 0 0 0</pose>
+          <geometry><box><size>1.1 0.65 0.08</size></box></geometry>
+        </collision>
+        <visual name="top_visual">
+          <pose>0 0 0.42 0 0 0</pose>
+          <geometry><box><size>1.1 0.65 0.08</size></box></geometry>
+          <material><ambient>0.45 0.25 0.10 1</ambient><diffuse>0.45 0.25 0.10 1</diffuse></material>
+        </visual>
+
+        <collision name="leg_collision">
+          <pose>0 0 0.20 0 0 0</pose>
+          <geometry><cylinder><radius>0.07</radius><length>0.4</length></cylinder></geometry>
+        </collision>
+        <visual name="leg_visual">
+          <pose>0 0 0.20 0 0 0</pose>
+          <geometry><cylinder><radius>0.07</radius><length>0.4</length></cylinder></geometry>
+          <material><ambient>0.25 0.12 0.05 1</ambient><diffuse>0.25 0.12 0.05 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+    <model name="plant_realistic">
+      <static>true</static>
+      <pose>-7.0 -1.15 0 0 0 0</pose>
+      <link name="link">
+
+        <collision name="pot_collision">
+          <pose>0 0 0.18 0 0 0</pose>
+          <geometry><cylinder><radius>0.22</radius><length>0.36</length></cylinder></geometry>
+        </collision>
+        <visual name="pot_visual">
+          <pose>0 0 0.18 0 0 0</pose>
+          <geometry><cylinder><radius>0.22</radius><length>0.36</length></cylinder></geometry>
+          <material><ambient>0.45 0.22 0.08 1</ambient><diffuse>0.45 0.22 0.08 1</diffuse></material>
+        </visual>
+
+        <visual name="stem_visual">
+          <pose>0 0 0.55 0 0 0</pose>
+          <geometry><cylinder><radius>0.035</radius><length>0.7</length></cylinder></geometry>
+          <material><ambient>0.1 0.35 0.1 1</ambient><diffuse>0.1 0.35 0.1 1</diffuse></material>
+        </visual>
+
+        <visual name="leaves_visual">
+          <pose>0 0 0.95 0 0 0</pose>
+          <geometry><sphere><radius>0.35</radius></sphere></geometry>
+          <material><ambient>0.05 0.45 0.08 1</ambient><diffuse>0.05 0.45 0.08 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+    <!-- ================= TOP RIGHT: KITCHEN ================= -->
+    <model name="kitchen_counter_realistic">
+      <static>true</static>
+      <pose>5.45 4.85 0 0 0 0</pose>
+      <link name="link">
+
+        <collision name="cabinet_collision">
+          <pose>0 0 0.42 0 0 0</pose>
+          <geometry><box><size>2.1 0.55 0.84</size></box></geometry>
+        </collision>
+        <visual name="cabinet_visual">
+          <pose>0 0 0.42 0 0 0</pose>
+          <geometry><box><size>2.1 0.55 0.84</size></box></geometry>
+          <material><ambient>0.42 0.42 0.40 1</ambient><diffuse>0.42 0.42 0.40 1</diffuse></material>
+        </visual>
+
+        <collision name="countertop_collision">
+          <pose>0 0 0.88 0 0 0</pose>
+          <geometry><box><size>2.2 0.65 0.08</size></box></geometry>
+        </collision>
+        <visual name="countertop_visual">
+          <pose>0 0 0.88 0 0 0</pose>
+          <geometry><box><size>2.2 0.65 0.08</size></box></geometry>
+          <material><ambient>0.12 0.12 0.12 1</ambient><diffuse>0.12 0.12 0.12 1</diffuse></material>
+        </visual>
+
+        <visual name="sink_visual">
+          <pose>-0.55 0 0.94 0 0 0</pose>
+          <geometry><box><size>0.5 0.34 0.04</size></box></geometry>
+          <material><ambient>0.65 0.70 0.72 1</ambient><diffuse>0.65 0.70 0.72 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+    <model name="fridge_realistic">
+      <static>true</static>
+      <pose>7.1 1.25 0 0 0 0</pose>
+      <link name="link">
+
+        <collision name="body_collision">
+          <pose>0 0 0.9 0 0 0</pose>
+          <geometry><box><size>0.65 0.65 1.8</size></box></geometry>
+        </collision>
+        <visual name="body_visual">
+          <pose>0 0 0.9 0 0 0</pose>
+          <geometry><box><size>0.65 0.65 1.8</size></box></geometry>
+          <material><ambient>0.88 0.88 0.86 1</ambient><diffuse>0.88 0.88 0.86 1</diffuse></material>
+        </visual>
+
+        <visual name="handle_visual">
+          <pose>0.26 -0.35 0.95 0 0 0</pose>
+          <geometry><box><size>0.04 0.04 0.55</size></box></geometry>
+          <material><ambient>0.2 0.2 0.2 1</ambient><diffuse>0.2 0.2 0.2 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+    <!-- ================= BOTTOM RIGHT: DINING / UTILITY ================= -->
+    <model name="dining_table_realistic">
+      <static>true</static>
+      <pose>5.2 -3.6 0 0 0 0</pose>
+      <link name="link">
+
+        <collision name="top_collision">
+          <pose>0 0 0.72 0 0 0</pose>
+          <geometry><box><size>1.3 0.85 0.08</size></box></geometry>
+        </collision>
+        <visual name="top_visual">
+          <pose>0 0 0.72 0 0 0</pose>
+          <geometry><box><size>1.3 0.85 0.08</size></box></geometry>
+          <material><ambient>0.42 0.22 0.08 1</ambient><diffuse>0.42 0.22 0.08 1</diffuse></material>
+        </visual>
+
+        <collision name="leg_collision">
+          <pose>0 0 0.35 0 0 0</pose>
+          <geometry><cylinder><radius>0.08</radius><length>0.7</length></cylinder></geometry>
+        </collision>
+        <visual name="leg_visual">
+          <pose>0 0 0.35 0 0 0</pose>
+          <geometry><cylinder><radius>0.08</radius><length>0.7</length></cylinder></geometry>
+          <material><ambient>0.25 0.12 0.05 1</ambient><diffuse>0.25 0.12 0.05 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+    <model name="chair_1">
+      <static>true</static>
+      <pose>5.2 -4.5 0 0 0 0</pose>
+      <link name="link">
+        <collision name="seat_collision">
+          <pose>0 0 0.35 0 0 0</pose>
+          <geometry><box><size>0.42 0.42 0.08</size></box></geometry>
+        </collision>
+        <visual name="seat_visual">
+          <pose>0 0 0.35 0 0 0</pose>
+          <geometry><box><size>0.42 0.42 0.08</size></box></geometry>
+          <material><ambient>0.50 0.25 0.10 1</ambient><diffuse>0.50 0.25 0.10 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="chair_2">
+      <static>true</static>
+      <pose>5.2 -2.7 0 0 0 3.14159</pose>
+      <link name="link">
+        <collision name="seat_collision">
+          <pose>0 0 0.35 0 0 0</pose>
+          <geometry><box><size>0.42 0.42 0.08</size></box></geometry>
+        </collision>
+        <visual name="seat_visual">
+          <pose>0 0 0.35 0 0 0</pose>
+          <geometry><box><size>0.42 0.42 0.08</size></box></geometry>
+          <material><ambient>0.50 0.25 0.10 1</ambient><diffuse>0.50 0.25 0.10 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="dustbin_realistic">
+      <static>true</static>
+      <pose>7.0 -1.1 0 0 0 0</pose>
+      <link name="link">
+
+        <collision name="bin_collision">
+          <pose>0 0 0.35 0 0 0</pose>
+          <geometry><cylinder><radius>0.24</radius><length>0.7</length></cylinder></geometry>
+        </collision>
+        <visual name="bin_visual">
+          <pose>0 0 0.35 0 0 0</pose>
+          <geometry><cylinder><radius>0.24</radius><length>0.7</length></cylinder></geometry>
+          <material><ambient>0.04 0.04 0.04 1</ambient><diffuse>0.04 0.04 0.04 1</diffuse></material>
+        </visual>
+
+        <visual name="lid_visual">
+          <pose>0 0 0.73 0 0 0</pose>
+          <geometry><cylinder><radius>0.26</radius><length>0.05</length></cylinder></geometry>
+          <material><ambient>0.02 0.02 0.02 1</ambient><diffuse>0.02 0.02 0.02 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+  </world>
+</sdf>

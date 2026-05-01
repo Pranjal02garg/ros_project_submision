@@ -1,0 +1,54 @@
+import os
+
+from launch import LaunchDescription
+from launch.actions import ExecuteProcess, TimerAction
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
+
+
+def generate_launch_description():
+    pkg_share = FindPackageShare('new_mobile_robot').find('new_mobile_robot')
+
+    world_path = os.path.join(pkg_share, 'worlds', 'apartment.world')
+    urdf_path = os.path.join(pkg_share, 'urdf', 'new_mobile_robot.urdf')
+
+    with open(urdf_path, 'r') as infp:
+        robot_desc = infp.read()
+
+    gzserver = ExecuteProcess(
+        cmd=[
+            'gzserver',
+            '--verbose',
+            world_path,
+            '-s', 'libgazebo_ros_init.so',
+            '-s', 'libgazebo_ros_factory.so'
+        ],
+        output='screen'
+    )
+
+    robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='screen',
+        parameters=[{'robot_description': robot_desc}]
+    )
+
+    spawn_robot = Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        output='screen',
+        arguments=[
+            '-entity', 'new_mobile_robot',
+            '-topic', 'robot_description',
+            '-x', '0',
+            '-y', '0',
+            '-z', '0.0'
+        ]
+    )
+
+    return LaunchDescription([
+        gzserver,
+        robot_state_publisher,
+        TimerAction(period=3.0, actions=[spawn_robot])
+    ])

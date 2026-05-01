@@ -1,0 +1,9 @@
+solid wheel
+facet normal 0 0 1
+outer loop
+vertex -0.067 0.067 0
+vertex 0.067 0.067 0
+vertex 0.067 -0.067 0
+endloop
+endfacet
+endsolid wheel

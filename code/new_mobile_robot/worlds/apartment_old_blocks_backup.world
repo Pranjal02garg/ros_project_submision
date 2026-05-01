@@ -1,0 +1,248 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="apartment_world">
+
+    <!-- Physics -->
+    <physics name="default_physics" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <!-- Light -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Ground -->
+    <model name="floor">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>12 10 0.05</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>12 10 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.75 0.75 0.75 1</ambient>
+            <diffuse>0.75 0.75 0.75 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 -0.025 0 0 0</pose>
+      </link>
+    </model>
+
+    <!-- ================= OUTER BOUNDARY WALLS ================= -->
+
+    <model name="outer_walls">
+      <static>true</static>
+      <link name="link">
+
+        <!-- Top wall -->
+        <collision name="top_collision">
+          <pose>0 4 1 0 0 0</pose>
+          <geometry><box><size>12 0.2 2</size></box></geometry>
+        </collision>
+        <visual name="top_visual">
+          <pose>0 4 1 0 0 0</pose>
+          <geometry><box><size>12 0.2 2</size></box></geometry>
+          <material><ambient>0.8 0.8 0.8 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+
+        <!-- Bottom wall -->
+        <collision name="bottom_collision">
+          <pose>0 -4 1 0 0 0</pose>
+          <geometry><box><size>12 0.2 2</size></box></geometry>
+        </collision>
+        <visual name="bottom_visual">
+          <pose>0 -4 1 0 0 0</pose>
+          <geometry><box><size>12 0.2 2</size></box></geometry>
+          <material><ambient>0.8 0.8 0.8 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+
+        <!-- Left wall -->
+        <collision name="left_collision">
+          <pose>-6 0 1 0 0 0</pose>
+          <geometry><box><size>0.2 8 2</size></box></geometry>
+        </collision>
+        <visual name="left_visual">
+          <pose>-6 0 1 0 0 0</pose>
+          <geometry><box><size>0.2 8 2</size></box></geometry>
+          <material><ambient>0.8 0.8 0.8 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+
+        <!-- Right wall -->
+        <collision name="right_collision">
+          <pose>6 0 1 0 0 0</pose>
+          <geometry><box><size>0.2 8 2</size></box></geometry>
+        </collision>
+        <visual name="right_visual">
+          <pose>6 0 1 0 0 0</pose>
+          <geometry><box><size>0.2 8 2</size></box></geometry>
+          <material><ambient>0.8 0.8 0.8 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+    <!-- ================= ROOM PARTITIONS WITH DOOR GAPS ================= -->
+
+    <model name="partitions">
+      <static>true</static>
+      <link name="link">
+
+        <!-- Horizontal partition y = 2, door gap in middle -->
+        <collision name="p1_left_collision">
+          <pose>-3 2 1 0 0 0</pose>
+          <geometry><box><size>4 0.2 2</size></box></geometry>
+        </collision>
+        <visual name="p1_left_visual">
+          <pose>-3 2 1 0 0 0</pose>
+          <geometry><box><size>4 0.2 2</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+
+        <collision name="p1_right_collision">
+          <pose>3 2 1 0 0 0</pose>
+          <geometry><box><size>4 0.2 2</size></box></geometry>
+        </collision>
+        <visual name="p1_right_visual">
+          <pose>3 2 1 0 0 0</pose>
+          <geometry><box><size>4 0.2 2</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+
+        <!-- Horizontal partition y = -1.2, offset door gap -->
+        <collision name="p2_left_collision">
+          <pose>-3.5 -1.2 1 0 0 0</pose>
+          <geometry><box><size>3.5 0.2 2</size></box></geometry>
+        </collision>
+        <visual name="p2_left_visual">
+          <pose>-3.5 -1.2 1 0 0 0</pose>
+          <geometry><box><size>3.5 0.2 2</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+
+        <collision name="p2_right_collision">
+          <pose>3.2 -1.2 1 0 0 0</pose>
+          <geometry><box><size>4.2 0.2 2</size></box></geometry>
+        </collision>
+        <visual name="p2_right_visual">
+          <pose>3.2 -1.2 1 0 0 0</pose>
+          <geometry><box><size>4.2 0.2 2</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+
+        <!-- Vertical partition x = -2, door gap -->
+        <collision name="p3_top_collision">
+          <pose>-2 2.8 1 0 0 0</pose>
+          <geometry><box><size>0.2 2.2 2</size></box></geometry>
+        </collision>
+        <visual name="p3_top_visual">
+          <pose>-2 2.8 1 0 0 0</pose>
+          <geometry><box><size>0.2 2.2 2</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+
+        <collision name="p3_bottom_collision">
+          <pose>-2 -2.8 1 0 0 0</pose>
+          <geometry><box><size>0.2 2.4 2</size></box></geometry>
+        </collision>
+        <visual name="p3_bottom_visual">
+          <pose>-2 -2.8 1 0 0 0</pose>
+          <geometry><box><size>0.2 2.4 2</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+
+        <!-- Vertical partition x = 2.5, doorway -->
+        <collision name="p4_top_collision">
+          <pose>2.5 2.8 1 0 0 0</pose>
+          <geometry><box><size>0.2 2.2 2</size></box></geometry>
+        </collision>
+        <visual name="p4_top_visual">
+          <pose>2.5 2.8 1 0 0 0</pose>
+          <geometry><box><size>0.2 2.2 2</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+
+        <collision name="p4_bottom_collision">
+          <pose>2.5 -2.8 1 0 0 0</pose>
+          <geometry><box><size>0.2 2.4 2</size></box></geometry>
+        </collision>
+        <visual name="p4_bottom_visual">
+          <pose>2.5 -2.8 1 0 0 0</pose>
+          <geometry><box><size>0.2 2.4 2</size></box></geometry>
+          <material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material>
+        </visual>
+
+      </link>
+    </model>
+
+    <!-- ================= OBSTACLES / FURNITURE ================= -->
+
+    <model name="table">
+      <static>true</static>
+      <pose>-4 2.8 0.35 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>1.0 0.8 0.7</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.0 0.8 0.7</size></box></geometry>
+          <material><ambient>0.45 0.25 0.10 1</ambient><diffuse>0.45 0.25 0.10 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="sofa">
+      <static>true</static>
+      <pose>4 2.8 0.35 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>1.5 0.6 0.7</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.5 0.6 0.7</size></box></geometry>
+          <material><ambient>0.1 0.4 0.8 1</ambient><diffuse>0.1 0.4 0.8 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="kitchen_counter">
+      <static>true</static>
+      <pose>-4 -2.8 0.45 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>1.6 0.5 0.9</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.6 0.5 0.9</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="dustbin">
+      <static>true</static>
+      <pose>4 -2.8 0.35 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><cylinder><radius>0.25</radius><length>0.7</length></cylinder></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><cylinder><radius>0.25</radius><length>0.7</length></cylinder></geometry>
+          <material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>
