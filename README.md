@@ -147,7 +147,7 @@ Design objectives:
 
 ---
 
-### 🔹 Environment Features
+### 🔹4.1 Environment Features
 
 The world was created using a `.world` (SDF) file and includes:
 
@@ -161,7 +161,7 @@ The world was created using a `.world` (SDF) file and includes:
 
 ---
 
-### 🔹 Simulation Characteristics
+### 🔹4.2 Simulation Characteristics
 
 - Flat ground plane for stable robot motion  
 - Static obstacles for mapping and path planning  
@@ -170,7 +170,7 @@ The world was created using a `.world` (SDF) file and includes:
 
 ---
 
-### 🔹 Purpose of Environment
+### 🔹4.3 Purpose of Environment
 
 This environment was specifically designed to:
 
@@ -198,13 +198,13 @@ This step was critical for:
 
 ---
 
-### 🔹 Method Used
+### 🔹5.1 Method Used
 
 A custom Python-based teleoperation script was developed:
 
 python3 scripts/arrow_teleop_safe.py
 
-### 🔹 Control Mapping
+### 🔹 5.2 Control Mapping
 
 | Key | Action |
 |-----|--------|
@@ -217,7 +217,7 @@ python3 scripts/arrow_teleop_safe.py
 
 ---
 
-### 🔹 Observations
+### 🔹5.3 Observations
 
 - Real-time response with negligible delay (< 50 ms)  
 - Smooth forward and rotational motion  
@@ -226,7 +226,7 @@ python3 scripts/arrow_teleop_safe.py
 
 ---
 
-### 🔹 Role in Project
+### 🔹5.4 Role in Project
 
 Teleoperation was essential for:
 
@@ -252,7 +252,7 @@ The controller ensures:
 
 ---
 
-### 🔹 Mathematical Model
+### 🔹6.1 Mathematical Model
 
 The PID control law is defined as:
 u(t) = Kp·e(t) + Ki·∫e(t)dt + Kd·(de/dt)
@@ -265,7 +265,7 @@ Where:
 
 ---
 
-### 🔹 Implementation Details
+### 🔹6.2 Implementation Details
 
 - Node: `pid_controller.py`  
 - Subscribes to: `/cmd_vel`  
@@ -278,7 +278,7 @@ Control loops:
 
 ---
 
-### 🔹 Gain Selection
+### 🔹6.3 Gain Selection
 
 The gains were tuned experimentally for stable indoor navigation:
 
@@ -290,7 +290,7 @@ The gains were tuned experimentally for stable indoor navigation:
 
 ---
 
-### 🔹 Observations
+### 🔹 6.4 Observations
 
 - Faster convergence to desired velocity  
 - Reduced overshoot compared to P-only control  
@@ -301,7 +301,7 @@ The gains were tuned experimentally for stable indoor navigation:
  
 
 > 📌 Note: While Nav2 handles high-level navigation, this PID controller demonstrates low-level control understanding.
-> See [PID Controller](docs/system.md#-pid-controller) for full derivation and tuning notes.
+> See [PID Controller](docs/PID_Controller.md) for full derivation and tuning notes.
  
 ---
 
@@ -316,44 +316,119 @@ The gains were tuned experimentally for stable indoor navigation:
   <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/35e55252b3b09f6b3368ac17cc82e9758f8c5303/media/slam_model%20_closeup.jpeg" alt="SLAM Map 3D View" width="45%"/>
 </p>
 <p align="center"><em>Final saved occupancy grid map (left) · 3D RViz map overlay (right)</em></p>
-- Uses **`slam_toolbox`** in online asynchronous mode
-- Robot teleoperated through all rooms to build a complete map
-- Map saved as `.pgm` + `.yaml` for Nav2 localization
-```bash
-# Save the map
-ros2 run nav2_map_server map_saver_cli -f ~/maps/apartment_map
-```
- 
+
+### 🔹 7.1 SLAM Implementation
+
+Simultaneous Localization and Mapping (SLAM) was implemented using the **`slam_toolbox`** package in ROS2.
+
+This allows the robot to:
+- Build a map of an unknown environment  
+- Estimate its position simultaneously  
+- Correct drift using scan matching  
+
 ---
- 
+
+### 🔹7.2 Inputs and Outputs
+
+| Input | Source |
+|------|--------|
+| `/scan` | LiDAR sensor |
+| `/odom` | Differential drive plugin |
+| `/tf` | Robot state publisher |
+
+| Output | Description |
+|--------|------------|
+| `/map` | Occupancy grid map |
+| `/tf (map → odom)` | Localization correction |
+
+
+---
+
+### 🔹7.3 Map Generation
+
+- Robot was manually driven using teleoperation  
+- All rooms were explored to ensure complete coverage  
+- Loop closure corrected accumulated drift  
+
+Final output:
+- `.pgm` → map image  
+- `.yaml` → metadata  
+
+ros2 run nav2_map_server map_saver_cli -f maps/apartment_map
+
+
+---
+
+
+
 ## 🚀 Autonomous Navigation (Nav2)
  
 <p align="center">
   <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/35e55252b3b09f6b3368ac17cc82e9758f8c5303/media/nav2_trajectory.jpeg" alt="Nav2 Navigation Trajectory" width="60%"/>
 </p>
 <p align="center"><em>Nav2 planned path and real-time trajectory during autonomous navigation</em></p>
-**Nav2 Stack Components:**
- 
+
+### 🔹 7.4 Nav2 Navigation Stack
+
+Autonomous navigation was implemented using the **ROS2 Navigation Stack (Nav2)**.
+
+The robot is capable of:
+- Localizing itself on a known map  
+- Planning a path to a target location  
+- Avoiding obstacles while moving  
+
+---
+
+### 🔹7.5 Core Components
+
 | Component | Role |
 |---|---|
-| **AMCL** | Particle filter localization on saved map |
-| **NavFn** | Global path planning (Dijkstra/A*) |
-| **DWB Controller** | Local trajectory following |
-| **Costmap2D** | Obstacle inflation and layered costmaps |
-| **BT Navigator** | Behavior tree execution engine |
- 
-The waypoint script sends sequential goals to Nav2's action server, enabling fully autonomous multi-room navigation.
- 
+| **AMCL** | Localization using particle filter |
+| **Map Server** | Provides saved occupancy grid |
+| **NavFn Planner** | Global path planning |
+| **DWB Controller** | Local trajectory execution |
+| **Costmaps** | Obstacle representation |
+| **BT Navigator** | Behavior execution |
+
 ---
- 
- 
-## 🖥️ Project Structure in VS Code
- 
-<p align="center">
-  <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/35e55252b3b09f6b3368ac17cc82e9758f8c5303/media/vs_code_structure.jpeg" alt="VS Code Project Structure" width="70%"/>
-</p>
-<p align="center"><em>ROS2 workspace layout in VS Code with WSL Ubuntu 22.04</em></p>
+
+### 🔹7.6 Navigation Pipeline
 ---
+Saved Map
+-->
+Map Server (/map)
+-->
+AMCL Localization
+-->
+Goal Input (/navigate_to_pose)
+-->
+Global Planner (NavFn)
+-->
+Local Controller (DWB)
+-->
+/cmd_vel
+-->
+Robot Motion
+
+
+---
+
+### 🔹 7.7 Path Planning
+
+- Global planner computes shortest collision-free path  
+- Local controller adjusts motion in real-time  
+- Costmaps inflate obstacles for safety margins  
+
+---
+
+### 🔹7.8 Autonomous Execution
+
+A custom script sends navigation goals:
+
+python3 scripts/waypoint_navigator.py
+ 
+ 
+ See [SLAM  & nav2 ](docs/SLAM_nav2.md) for full tuning notes.
  
 ## 📁 Repository Structure
  
