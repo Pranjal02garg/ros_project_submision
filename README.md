@@ -74,20 +74,6 @@ The robot can:
 ```
  
 ---
- 
-## 🌍 Gazebo Environment
- 
-<p align="center">
-  <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/35e55252b3b09f6b3368ac17cc82e9758f8c5303/media/Gazebo_Apartment_Top_view.jpeg" alt="Gazebo Apartment Top View" width="48%"/>
-  <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/35e55252b3b09f6b3368ac17cc82e9758f8c5303/media/Gazebo%20Apartment%20Perspective.jpeg" alt="Gazebo Apartment Perspective" width="48%"/>
-</p>
-<p align="center"><em>Custom apartment world — top view (left) · perspective view (right)</em></p>
-A hand-crafted `.world` file featuring:
-- Multi-room layout with interior walls and doorways
-- Furniture: sofa, tables, chairs, shelves, plants
-- Realistic obstacle density for SLAM and Nav2 testing
----
- 
 ## 🤖 Robot Model
  
 <p align="center">
@@ -97,12 +83,228 @@ A hand-crafted `.world` file featuring:
  <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/35e55252b3b09f6b3368ac17cc82e9758f8c5303/media/cad_model.png" alt="Robot CAD Model in Solidworks" width="48%"/>
 </p>
 <p align="center"><em>Robot CAD Model in Solidworks</em></p>
-- **4-wheel chassis** — 2 active drive wheels + 2 passive casters
-- **LiDAR mount** on top center
-- **Gazebo differential drive plugin** for realistic wheel odometry
-- Full **TF tree**: `map → odom → base_link → wheels + lidar`
+
+### 🔹 1. Robot Parameter Selection
+
+The robot was designed specifically for an **indoor navigation application**, such as a cleaning or service robot.
+
+Key design considerations:
+- Compact size for navigating narrow doorways  
+- Stable 4-wheel base for smooth motion  
+- Differential drive for simple control  
+- Moderate speed for safe indoor operation  
+
+---
+
+### 🔹 2. 3D Design and Structure
+
+The robot consists of:
+- Rectangular base chassis  
+- Four wheels (2 active + 2 passive)  
+- Top-mounted LiDAR sensor  
+
+The design ensures:
+- Low center of gravity  
+- Balanced weight distribution  
+- Clear sensor field of view  
+
+---
+
+### 🔹 3. URDF Modelling & Visualization
+
+The robot was modeled using **URDF (Unified Robot Description Format)** and integrated with ROS2.
+
+Implemented features:
+- Links and joints for all components  
+- Inertial properties for stable physics simulation  
+- Differential drive plugin for motion  
+- LiDAR sensor plugin for perception  
+
+Visualization tools:
+- **Gazebo** → physics simulation and movement  
+- **RViz2** → TF tree, robot model, sensor data  
+
 ---
  
+ 
+## 🌍 Gazebo Environment
+ 
+<p align="center">
+  <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/35e55252b3b09f6b3368ac17cc82e9758f8c5303/media/Gazebo_Apartment_Top_view.jpeg" alt="Gazebo Apartment Top View" width="48%"/>
+  <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/35e55252b3b09f6b3368ac17cc82e9758f8c5303/media/Gazebo%20Apartment%20Perspective.jpeg" alt="Gazebo Apartment Perspective" width="48%"/>
+</p>
+<p align="center"><em>Custom apartment world — top view (left) · Robot navigating inside the custom Gazebo environment (right)</em></p>
+
+
+### 🔹 4. Custom Environment Design
+
+A **custom indoor apartment environment** was designed in Gazebo to simulate a real-world application scenario for the robot.
+
+Design objectives:
+- Represent a realistic indoor navigation environment  
+- Include multiple rooms and narrow doorways  
+- Introduce obstacles to test SLAM and navigation  
+
+---
+
+### 🔹 Environment Features
+
+The world was created using a `.world` (SDF) file and includes:
+
+- Multi-room layout with interconnected spaces  
+- Interior walls with doorway gaps (~0.9 m width)  
+- Central open area for navigation transitions  
+- Furniture objects:
+  - Sofa, tables, chairs  
+  - Cabinets and shelves  
+  - Decorative elements (plants, objects)  
+
+---
+
+### 🔹 Simulation Characteristics
+
+- Flat ground plane for stable robot motion  
+- Static obstacles for mapping and path planning  
+- Realistic spacing to challenge navigation algorithms  
+- Compatible with Gazebo physics engine  
+
+---
+
+### 🔹 Purpose of Environment
+
+This environment was specifically designed to:
+
+- Test **teleoperation control** in confined spaces  
+- Enable **SLAM mapping across multiple rooms**  
+- Evaluate **Nav2 path planning through doorways and obstacles**  
+
+---
+
+## 🎮 Teleoperation (Manual Control)
+
+<p align="center">
+  <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/e8bc1ec7ff789af00180633a8ecb35b4c2c6ac4b/media/vs_code_structure.jpeg" width="70%"/>
+</p>
+<p align="center"><em>Manual robot control using keyboard teleoperation</em></p>
+
+### 🔹 5. Teleoperation Implementation
+
+Teleoperation was implemented to manually control the robot inside the Gazebo environment.  
+This step was critical for:
+
+- Verifying robot motion and kinematics  
+- Testing `/cmd_vel` communication  
+- Performing SLAM mapping exploration  
+
+---
+
+### 🔹 Method Used
+
+A custom Python-based teleoperation script was developed:
+
+python3 scripts/arrow_teleop_safe.py
+
+### 🔹 Control Mapping
+
+| Key | Action |
+|-----|--------|
+| ↑ | Move Forward |
+| ↓ | Move Backward |
+| ← | Rotate Left |
+| → | Rotate Right |
+| SPACE | Stop |
+| q | Quit |
+
+---
+
+### 🔹 Observations
+
+- Real-time response with negligible delay (< 50 ms)  
+- Smooth forward and rotational motion  
+- Stable skid-steer turning behavior  
+- Accurate control in narrow indoor spaces  
+
+---
+
+### 🔹 Role in Project
+
+Teleoperation was essential for:
+
+- Driving the robot during **SLAM mapping**  
+- Verifying correct motion control via `/cmd_vel`  
+- Testing system integration before autonomous navigation
+  
+## ⚙️ PID Controller
+
+<p align="center">
+  <img src="assets/pid_response_curve.png" width="60%"/>
+</p>
+<p align="center"><em>Typical PID response — error convergence and damping behavior</em></p>
+
+### 🔹 6. PID Control Implementation
+
+A custom **PID (Proportional–Integral–Derivative) controller** was implemented as a ROS2 node to regulate robot motion using feedback from odometry.
+
+The controller ensures:
+- Smooth velocity control  
+- Reduced oscillations  
+- Accurate trajectory execution  
+
+---
+
+### 🔹 Mathematical Model
+
+The PID control law is defined as:
+u(t) = Kp·e(t) + Ki·∫e(t)dt + Kd·(de/dt)
+
+Where:
+- `e(t)` → error between desired and actual velocity  
+- `Kp` → proportional gain  
+- `Ki` → integral gain  
+- `Kd` → derivative gain  
+
+---
+
+### 🔹 Implementation Details
+
+- Node: `pid_controller.py`  
+- Subscribes to: `/cmd_vel`  
+- Uses feedback from: `/odom`  
+- Publishes corrected velocity commands  
+
+Control loops:
+- Linear velocity control  
+- Angular velocity control  
+
+---
+
+### 🔹 Gain Selection
+
+The gains were tuned experimentally for stable indoor navigation:
+
+- `Kp = 1.2` → responsive correction  
+- `Ki = 0.01` → minimal steady-state error  
+- `Kd = 0.05` → damping to reduce oscillations  
+
+> Note: In some scenarios, `Ki` was kept very small to prevent integral windup.
+
+---
+
+### 🔹 Observations
+
+- Faster convergence to desired velocity  
+- Reduced overshoot compared to P-only control  
+- Stable motion in straight-line travel  
+- Improved turning accuracy  
+
+---
+ 
+
+> 📌 Note: While Nav2 handles high-level navigation, this PID controller demonstrates low-level control understanding.
+> See [PID Controller](docs/system.md#-pid-controller) for full derivation and tuning notes.
+ 
+---
+
 ## 🗺️ SLAM Mapping
  
 <p align="center">
@@ -144,22 +346,6 @@ The waypoint script sends sequential goals to Nav2's action server, enabling ful
  
 ---
  
-## ⚙️ PID Controller
- 
-Custom ROS2 node (`pid_controller.py`) implementing:
- 
-```
-error = desired_velocity - actual_velocity
-output = Kp*error + Ki*∫error·dt + Kd*(Δerror/Δt)
-```
- 
-- Separate PID loops for **linear** and **angular** velocity
-- Tuned gains: `Kp=1.2, Ki=0.01, Kd=0.05`
-- Subscribes to `/cmd_vel`, publishes corrected velocity
-- Anti-windup clamping on integral term
-> See [PID Controller](docs/system.md#-pid-controller) for full derivation and tuning notes.
- 
----
  
 ## 🖥️ Project Structure in VS Code
  
