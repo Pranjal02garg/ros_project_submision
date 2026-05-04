@@ -314,10 +314,17 @@ The gains were tuned experimentally for stable indoor navigation:
 </p>
 <p align="center"><em>Real-time occupancy grid map being built during teleoperation</em></p>
 <p align="center">
-  <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/35e55252b3b09f6b3368ac17cc82e9758f8c5303/media/slam_before_tracing.jpeg" alt="Final SLAM Map" width="45%"/>
+  <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/686994bcf5c2fbb701c29bd020e6ab40ed283968/media/slam_after_tracing.jpeg" alt="Final SLAM Map" width="45%"/>
   <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/35e55252b3b09f6b3368ac17cc82e9758f8c5303/media/slam_model%20_closeup.jpeg" alt="SLAM Map 3D View" width="45%"/>
 </p>
 <p align="center"><em>Final saved occupancy grid map (left) · 3D RViz map overlay (right)</em></p>
+
+<p align="center">
+  <a href="https://youtu.be/NTJ_lo1xq-0">
+    <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/1434c786c5eb4652824fb3810d8322710c025f88/media/assetsslam_thumbnail.png" width="60%"/>
+  </a>
+</p>
+<p align="center"><em>SLAM Mapping Demonstration — Click to watch video</em></p>
 
 ### 🔹 7.1 SLAM Implementation
 
