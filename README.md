@@ -237,9 +237,11 @@ Teleoperation was essential for:
 ## ⚙️ PID Controller
 
 <p align="center">
-  <img src="assets/pid_response_curve.png" width="60%"/>
+  <a href="https://youtu.be/X8UEGggXbnY">
+    <img src="https://img.youtube.com/vi/X8UEGggXbnY/maxresdefault.jpg" width="60%"/>
+  </a>
 </p>
-<p align="center"><em>Typical PID response — error convergence and damping behavior</em></p>
+<p align="center"><em>PID Controller Demonstration — Click to watch video</em></p>
 
 ### 🔹 6. PID Control Implementation
 
