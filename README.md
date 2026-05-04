@@ -377,6 +377,13 @@ ros2 run nav2_map_server map_saver_cli -f maps/apartment_map
 </p>
 <p align="center"><em>Nav2 planned path and real-time trajectory during autonomous navigation</em></p>
 
+<p align="center">
+  <a href="https://youtu.be/DX8wjiBe3ZQ">
+    <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/d4cb07e3362dfeba22192adfcf5e922aad8c665a/media/assetsnav2_thumbnail.png" width="60%"/>
+  </a>
+</p>
+<p align="center"><em> Nav2 Demonstration — Click to watch video</em></p>
+
 ### 🔹 7.4 Nav2 Navigation Stack
 
 Autonomous navigation was implemented using the **ROS2 Navigation Stack (Nav2)**.
