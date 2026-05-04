@@ -238,7 +238,7 @@ Teleoperation was essential for:
 
 <p align="center">
   <a href="https://youtu.be/X8UEGggXbnY">
-    <img src="https://img.youtube.com/vi/X8UEGggXbnY/maxresdefault.jpg" width="60%"/>
+    <img src="https://github.com/Pranjal02garg/ros_project_submision/blob/2122ef2c34be912104483fe8f5b410c2e11c479a/media/assetspid_thumbnail.png" width="60%"/>
   </a>
 </p>
 <p align="center"><em>PID Controller Demonstration — Click to watch video</em></p>
